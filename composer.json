@@ -1,0 +1,28 @@
+{
+    "name": "phpfluent/callback",
+    "type": "library",
+    "description": "Allows you execute callbacks in a more dynamic way",
+    "keywords": ["callback", "callable", "closure"],
+    "homepage": "https://github.com/PHPFluent/Callback",
+    "license" : "MIT",
+    "authors" : [
+        {
+            "name": "Henrique Moody",
+            "email": "henriquemoody@gmail.com",
+            "homepage": "http://about.me/henriquemoody"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpmd/phpmd" : "~2.1.3",
+        "phpunit/phpunit": "~4.3.5",
+        "squizlabs/php_codesniffer": "~1.5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPFluent\\Callback\\": "src/PHPFluent/Callback"
+        }
+    }
+}
