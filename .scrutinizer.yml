@@ -1,0 +1,35 @@
+filter:
+    excluded_paths:
+        - tests/*
+
+build:
+    environment:
+        mysql: false
+        postgresql: false
+        redis: false
+        elasticsearch: false
+        rabbitmq: false
+        mongodb: false
+        neo4j: false
+        memcached: false
+        php:
+            version: 5.6
+    tests:
+        override:
+            -
+                command: 'vendor/bin/phpunit --coverage-clover=coverage-clover.xml'
+                coverage:
+                    file: 'coverage-clover.xml'
+                    format: 'php-clover'
+
+checks:
+    php:
+        code_rating: true
+        duplication: true
+
+tools:
+    php_analyzer: true
+    php_code_sniffer:
+        config:
+            standard: "PSR2"
+    php_mess_detector: true
