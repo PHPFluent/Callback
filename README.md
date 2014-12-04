@@ -83,7 +83,7 @@ $callback($arg1, $arg2, $arg3); // call_user_func() and call_user_func_array() w
 
 ## Arguments
 
-If you're reading this document you may be wondering why this library was written, since everything written on it
+If you're reading this document you may be wondering why this library was written since everything written on it
 is already possible just using native PHP features.
 
 This library provides more flexibility when defining the arguments to be used when you call your callback. That's useful
@@ -99,7 +99,7 @@ $callable = new Callback(
         // My callable body
     }
 );
-$callable->invokeArgs(
+$callable->invokeArguments(
     array(
         'foo' => 'PHPFluent',
     )
