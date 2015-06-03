@@ -111,7 +111,8 @@ class Callback
     /**
      * Invoke callback using the given array as arguments.
      *
-     * @param  array $arguments
+     * @param array $arguments
+     *
      * @return mixed
      */
     public function invokeArguments(array $arguments)
