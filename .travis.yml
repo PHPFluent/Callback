@@ -13,8 +13,13 @@ matrix:
     - php: hhvm
     - php: hhvm-nightly
 
+before_install:
+  - composer self-update
+
 install:
-  - composer install --dev --no-interaction --prefer-source
+  - composer install --no-interaction --prefer-source
 
 script:
-  - make phpunit
+  - vendor/bin/phpmd src/ text codesize,controversial,design,naming,unusedcode
+  - vendor/bin/phpcs --standard=PSR2 src/
+  - vendor/bin/phpunit
