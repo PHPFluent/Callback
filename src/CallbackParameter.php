@@ -34,6 +34,7 @@ class CallbackParameter
 
     /**
      * @link   http://php.net/ReflectionParameter.getDefaultValue
+     *
      * @return mixed
      */
     public function getDefaultValue()
@@ -43,7 +44,8 @@ class CallbackParameter
 
     /**
      * @link   http://php.net/ReflectionParameter.isOptional
-     * @return boolean
+     *
+     * @return bool
      */
     public function isOptional()
     {
@@ -52,7 +54,8 @@ class CallbackParameter
 
     /**
      * @link   http://php.net/ReflectionParameter.isArray
-     * @return boolean
+     *
+     * @return bool
      */
     public function isArray()
     {
@@ -61,7 +64,8 @@ class CallbackParameter
 
     /**
      * @link   http://php.net/ReflectionParameter.isCallable
-     * @return boolean
+     *
+     * @return bool
      */
     public function isCallable()
     {
@@ -71,7 +75,7 @@ class CallbackParameter
     /**
      * Returns if parameter requires an object or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function isObject()
     {
@@ -81,8 +85,9 @@ class CallbackParameter
     /**
      * Returns TRUE if $value is compatible with parameter or FALSE if not.
      *
-     * @param  mixed   $value
-     * @return boolean
+     * @param mixed $value
+     *
+     * @return bool
      */
     public function isCompatible($value)
     {
@@ -98,6 +103,6 @@ class CallbackParameter
             return (is_object($value) && $this->reflection->getClass()->isInstance($value));
         }
 
-        return (! is_array($value) && ! is_callable($value) && ! is_object($value));
+        return (!is_array($value) && !is_callable($value) && !is_object($value));
     }
 }

@@ -10,14 +10,15 @@ class Factory
     /**
      * Returns if the given arguments are key => value when keys are not numbers.
      *
-     * @param  array   $arguments
-     * @return boolean
+     * @param array $arguments
+     *
+     * @return bool
      */
     protected function isKeyValue(array $arguments)
     {
         $result = true;
         foreach (array_keys($arguments) as $key) {
-            $result = $result && ! is_numeric($key);
+            $result = $result && !is_numeric($key);
         }
 
         return $result;
@@ -26,7 +27,8 @@ class Factory
     /**
      * Creates an new argument parser based on the given arguments.
      *
-     * @param  array                   $arguments
+     * @param array $arguments
+     *
      * @return ArgumentParserInterface
      */
     public function parser(array $arguments)
