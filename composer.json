@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "PHPFluent\\Callback\\": "src/PHPFluent/Callback"
+            "PHPFluent\\Callback\\": "src/"
         }
     }
 }
