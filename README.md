@@ -1,10 +1,10 @@
 # PHPFluent\Callback
-[![Build Status](https://scrutinizer-ci.com/g/PHPFluent/Callback/badges/build.png?b=master)](http://travis-ci.org/PHPFluent/Callback "Build Status")
-[![Code Quality](https://scrutinizer-ci.com/g/PHPFluent/Callback/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/PHPFluent/Callback/?branch=master "Code Quality")
-[![Code Coverage](https://scrutinizer-ci.com/g/PHPFluent/Callback/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/PHPFluent/Callback/?branch=master "Code Coverage")
-[![Total Downloads](https://poser.pugx.org/phpfluent/callback/downloads.png)](https://packagist.org/packages/phpfluent/callback "Total Downloads")
-[![License](https://poser.pugx.org/phpfluent/callback/license.png)](https://packagist.org/packages/phpfluent/callback "License")
-[![Latest Stable Version](https://poser.pugx.org/phpfluent/callback/v/stable.png)](https://packagist.org/packages/phpfluent/callback "Latest Stable Version")
+[![Build Status](https://img.shields.io/travis/PHPFluent/Callback/master.svg?style=flat-square)](http://travis-ci.org/PHPFluent/Callback)
+[![Code Quality](https://img.shields.io/scrutinizer/g/PHPFluent/Callback/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/PHPFluent/Callback/?branch=master)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/PHPFluent/Callback/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/PHPFluent/Callback/?branch=master)
+[![Latest Version](https://img.shields.io/packagist/v/phpfluent/callback.svg?style=flat-square)](https://packagist.org/packages/phpfluent/callback)
+[![Total Downloads](https://img.shields.io/packagist/dt/phpfluent/callback.svg?style=flat-square)](https://packagist.org/packages/phpfluent/callback)
+[![License](https://img.shields.io/packagist/l/phpfluent/callback.svg?style=flat-square)](https://packagist.org/packages/phpfluent/callback)
 
 Allows you execute callbacks in a more dynamic way.
 
