@@ -2,11 +2,9 @@
 
 namespace PHPFluent\Callback;
 
-use Closure;
 use PHPFluent\Callback\ArgumentParser\ArgumentParserInterface;
 use PHPFluent\Callback\ArgumentParser\Automatic;
 use PHPFluent\Callback\ArgumentParser\Factory;
-use PHPFluent\Callback\Exception\InvalidArgumentException;
 use ReflectionFunction;
 use ReflectionMethod;
 
@@ -38,23 +36,31 @@ class Callback
      */
     public function __construct(callable $callable, ArgumentParserInterface $argumentParser = null)
     {
-        $reflection = null;
-        if (is_array($callable) && is_object($callable[0])) {
-            $reflection = new ReflectionMethod($callable[0], $callable[1]);
-        }
-
-        if ($callable instanceof Closure
-            || (is_string($callable) && false === strpos($callable, '::'))) {
-            $reflection = new ReflectionFunction($callable);
-        }
-
-        if (null == $reflection) {
-            throw new InvalidArgumentException('The given callable is not supported');
-        }
-
-        $this->reflection = $reflection;
+        $this->reflection = $this->createReflection($callable);
         $this->callable = $callable;
         $this->argumentParser = $argumentParser ?: new Automatic(new Factory());
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @return ReflectionFunctionAbstract
+     */
+    private function createReflection(callable $callable)
+    {
+        if (is_string($callable) && strpos($callable, '::')) {
+            $callable = explode('::', $callable);
+        }
+
+        if (is_array($callable)) {
+            return new ReflectionMethod($callable[0], $callable[1]);
+        }
+
+        if (is_object($callable) && method_exists($callable, '__invoke')) {
+            return new ReflectionMethod($callable, '__invoke');
+        }
+
+        return new ReflectionFunction($callable);
     }
 
     /**
@@ -118,11 +124,8 @@ class Callback
     public function invokeArguments(array $arguments)
     {
         $parsedArguments = $this->argumentParser->parse($arguments, $this->getParameters());
-        if ($this->reflection instanceof ReflectionFunction) {
-            return $this->reflection->invokeArgs($parsedArguments);
-        }
 
-        return $this->reflection->invokeArgs($this->callable[0], $parsedArguments);
+        return call_user_func_array($this->callable, $parsedArguments);
     }
 
     /**

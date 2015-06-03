@@ -17,9 +17,12 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
     public function providerCallback()
     {
         return array(
-            array(function () {}, 'ReflectionFunction'),
+            array(function () {}, 'ReflectionMethod'),
             array('trim', 'ReflectionFunction'),
-            array(array($this, __FUNCTION__), 'ReflectionMethod'),
+            array('PHPFluent\Callback\CallbackTest::myStaticMethod', 'ReflectionMethod'),
+            array(array('PHPFluent\Callback\CallbackTest', 'myStaticMethod'), 'ReflectionMethod'),
+            array(array($this, 'myNonStaticMethod'), 'ReflectionMethod'),
+            array(new WithInvoke(), 'ReflectionMethod'),
         );
     }
 
@@ -36,24 +39,6 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException PHPFluent\Callback\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The given callable is not supported
-     */
-    public function testShouldNotAcceptStaticMethodsAsCallable()
-    {
-        new Callback('PHPUnit_Framework_TestCase::any');
-    }
-
-    /**
-     * @expectedException PHPFluent\Callback\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The given callable is not supported
-     */
-    public function testShouldNotAcceptArraysOfStringsAsCallable()
-    {
-        new Callback(array('PHPUnit_Framework_TestCase', 'any'));
-    }
-
-    /**
      * @dataProvider providerCallback
      */
     public function testShouldCreateAReflectionBasedOnCallable($callable, $expectedReflectionIntance)
@@ -63,6 +48,15 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
         $actualReflectionObject = $callback->getReflection();
 
         $this->assertInstanceOf($expectedReflectionIntance, $actualReflectionObject);
+    }
+
+    /**
+     * @dataProvider providerCallback
+     */
+    public function testShouldBeAbleToInvokeAnyCallable($callable, $expectedReflectionIntance)
+    {
+        $callback = new Callback($callable);
+        $callback->invoke('foo', 'bar');
     }
 
     public function testShouldDefineAnArgumentPaeserOnConstructor()
@@ -159,7 +153,11 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedArguments, $actualArguments);
     }
 
-    public function myMethod($a, $c, $c)
+    public static function myStaticMethod()
+    {
+    }
+
+    public function myNonStaticMethod($a, $c, $c = 'baz')
     {
         $this->calledArguments = func_get_args();
     }
@@ -171,7 +169,7 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
         $argumentParserMock = $this->getMock('PHPFluent\\Callback\\ArgumentParser\\ArgumentParserInterface');
 
         $callback = new Callback(
-            array($this, 'myMethod'),
+            array($this, 'myNonStaticMethod'),
             $argumentParserMock
         );
 
@@ -336,5 +334,14 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
         $actualReturn = $callback();
 
         $this->assertSame($expectedReturn, $actualReturn);
+    }
+}
+
+
+class WithInvoke
+{
+    public function __invoke()
+    {
+        // Doens't matter
     }
 }

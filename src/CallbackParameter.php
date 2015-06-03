@@ -39,6 +39,10 @@ class CallbackParameter
      */
     public function getDefaultValue()
     {
+        if (!$this->reflection->isDefaultValueAvailable()) {
+            return;
+        }
+
         return $this->reflection->getDefaultValue();
     }
 
