@@ -2,6 +2,8 @@
 
 namespace PHPFluent\Callback;
 
+use ReflectionClass;
+use ReflectionException;
 use ReflectionParameter;
 
 /**
@@ -63,7 +65,7 @@ class CallbackParameter
      */
     public function isArray()
     {
-        return $this->reflection->isArray();
+        return $this->reflection->getType() && $this->reflection->getType()->getName() === 'array';
     }
 
     /**
@@ -73,17 +75,18 @@ class CallbackParameter
      */
     public function isCallable()
     {
-        return $this->reflection->isCallable();
+        return $this->reflection->getType() && $this->reflection->getType()->getName() === 'callable';
     }
 
     /**
      * Returns if parameter requires an object or not.
      *
      * @return bool
+     * @throws ReflectionException
      */
     public function isObject()
     {
-        return (null !== $this->reflection->getClass());
+        return (null !== $this->getClass());
     }
 
     /**
@@ -92,6 +95,7 @@ class CallbackParameter
      * @param mixed $value
      *
      * @return bool
+     * @throws ReflectionException
      */
     public function isCompatible($value)
     {
@@ -103,10 +107,24 @@ class CallbackParameter
             return is_callable($value);
         }
 
-        if ($this->isObject()) {
-            return (is_object($value) && $this->reflection->getClass()->isInstance($value));
+        $class = $this->getClass();
+        if ($this->isObject() && $class) {
+            return (is_object($value) && $class->isInstance($value));
         }
 
         return (!is_array($value) && !is_callable($value) && !is_object($value));
+    }
+
+    /**
+     * Returns Reflection class
+     *
+     * @return ReflectionClass
+     * @throws ReflectionException
+     */
+    public function getClass()
+    {
+        return $this->reflection->getType() && !$this->reflection->getType()->isBuiltin()
+            ? new ReflectionClass($this->reflection->getType()->getName())
+            : null;
     }
 }
